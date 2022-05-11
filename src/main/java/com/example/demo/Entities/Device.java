@@ -1,11 +1,15 @@
 package com.example.demo.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "device")
 public class Device {
     @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "serial_numer", updatable = false)
     private String serialNumber;
 
