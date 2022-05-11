@@ -14,11 +14,9 @@ public class Company {
     private String name;
     @Column(name = "address")
     private String address;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company")
     private List<Employee> employees;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company")
     private List<Device> devices;
 
     public Company() {}
