@@ -1,42 +1,19 @@
 package com.example.demo.DTOs;
 
+import com.example.demo.Entities.Device;
+import com.example.demo.Entities.Employee;
+import lombok.*;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CompanyDTO {
-    private int id;
+
     private String name;
     private String address;
+    private List<Employee> employees;
+    private List<Device> devices;
 
-    public CompanyDTO(String name, String address){
-        this.name = name;
-        this.address = address;
-    }
-
-    public CompanyDTO(int id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
