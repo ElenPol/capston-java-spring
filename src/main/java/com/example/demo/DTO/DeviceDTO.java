@@ -1,9 +1,10 @@
-package com.example.demo.DTOs;
+package com.example.demo.DTO;
 
-import com.example.demo.Entities.Company;
-import com.example.demo.Entities.Employee;
+import com.example.demo.Model.Company;
+import com.example.demo.Model.Employee;
 import lombok.*;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

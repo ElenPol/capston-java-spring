@@ -1,10 +1,11 @@
-package com.example.demo.DTOs;
+package com.example.demo.DTO;
 
-import com.example.demo.Entities.Device;
-import com.example.demo.Entities.Employee;
+import com.example.demo.Model.Device;
+import com.example.demo.Model.Employee;
 import lombok.*;
 import java.util.List;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
