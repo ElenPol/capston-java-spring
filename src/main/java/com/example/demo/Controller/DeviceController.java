@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.DTO.DeviceDTO;
+import com.example.demo.Exception.EmployeeMismatchCompanyException;
 import com.example.demo.Mapper.DeviceMapper;
 import com.example.demo.Model.Device;
 import com.example.demo.Repository.DeviceRepository;
@@ -21,10 +22,10 @@ public class DeviceController {
     private final DeviceMapper deviceMap;
 
     @Autowired
-    public DeviceController(DeviceRepository deviceRepo) {
+    public DeviceController(DeviceRepository deviceRepo, DeviceService deviceService) {
         this.deviceRepo = deviceRepo;
         this.deviceMap = new DeviceMapper();
-        this.deviceService = new DeviceService(this.deviceRepo);
+        this.deviceService = deviceService;
     }
 
     @GetMapping(value = "/{serialNumber}")
@@ -41,12 +42,12 @@ public class DeviceController {
 
     @PostMapping
     @ResponseBody
-    public DeviceDTO addDevice(@RequestBody DeviceDTO newDeviceDTO) {
+    public DeviceDTO addDevice(@RequestBody DeviceDTO newDeviceDTO) throws Exception {
         return deviceMap.convertEntityToDTO(deviceService.addDevice(deviceMap.convertDTOToEntity(newDeviceDTO)));
     }
 
     @PutMapping(value = "/{serialNumber}")
-    public void updateDevice(@PathVariable("serialNumber") String serialNumber, @RequestBody DeviceDTO updatedDevDTO) {
+    public void updateDevice(@PathVariable("serialNumber") String serialNumber, @RequestBody DeviceDTO updatedDevDTO) throws Exception {
         Device updatedDev = deviceMap.convertDTOToEntity(updatedDevDTO);
         updatedDev.setSerialNumber(serialNumber);
         deviceService.updateDevice(updatedDev);

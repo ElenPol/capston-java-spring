@@ -20,12 +20,11 @@ public class EmployeeController {
     private final EmployeeMapper employeeMap;
     private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepo;
-
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepo) {
-        this.employeeRepo = employeeRepo;
+    public EmployeeController(EmployeeService employeeService, EmployeeRepository employeeRepo) {
         this.employeeMap = new EmployeeMapper();
-        this.employeeService = new EmployeeService(this.employeeRepo);
+        this.employeeService = employeeService;
+        this.employeeRepo = employeeRepo;
     }
 
     @GetMapping
@@ -41,12 +40,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO newEmployeeDTO) {
+    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO newEmployeeDTO) throws Exception {
         return employeeMap.convertEntityToDTO(employeeService.addEmployee(employeeMap.convertDTOToEntity(newEmployeeDTO)));
     }
 
     @PutMapping(value = "/{id}")
-    public void updateEmployee(@PathVariable("id") int id, @RequestBody EmployeeDTO updatedEmplDTO) {
+    public void updateEmployee(@PathVariable("id") int id, @RequestBody EmployeeDTO updatedEmplDTO) throws Exception {
         Employee updatedEmpl = employeeMap.convertDTOToEntity(updatedEmplDTO);
         updatedEmpl.setId(id);
         employeeService.updateEmployee(updatedEmpl);
