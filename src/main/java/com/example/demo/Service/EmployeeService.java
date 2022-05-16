@@ -2,8 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Exception.NoCompanyFoundException;
 import com.example.demo.Model.Employee;
-import com.example.demo.Repository.CompanyRepository;
-import com.example.demo.Repository.EmployeeRepository;
+import com.example.demo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +30,15 @@ public class EmployeeService {
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);
     }
-    public void updateEmployee(Employee employee) throws Exception{
+    public Employee updateEmployee(Employee employee) throws Exception{
         companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
-        employeeRepo.save(employee);
+        return employeeRepo.save(employee);
     }
-    public void deleteEmployee(int id){
+    public String deleteEmployee(int id){
+
         employeeRepo.deleteById(id);
+        return "Employee is deleted";
     }
 
 }

@@ -1,12 +1,8 @@
 package com.example.demo.Service;
 
-import com.example.demo.Exception.EmployeeMismatchCompanyException;
-import com.example.demo.Exception.NoCompanyFoundException;
-import com.example.demo.Exception.NoEmployeeFoundException;
+import com.example.demo.Exception.*;
 import com.example.demo.Model.Device;
-import com.example.demo.Repository.CompanyRepository;
-import com.example.demo.Repository.DeviceRepository;
-import com.example.demo.Repository.EmployeeRepository;
+import com.example.demo.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

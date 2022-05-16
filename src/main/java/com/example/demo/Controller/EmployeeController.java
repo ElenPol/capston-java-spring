@@ -19,12 +19,10 @@ public class EmployeeController {
 
     private final EmployeeMapper employeeMap;
     private final EmployeeService employeeService;
-    private final EmployeeRepository employeeRepo;
     @Autowired
-    public EmployeeController(EmployeeService employeeService, EmployeeRepository employeeRepo) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeMap = new EmployeeMapper();
         this.employeeService = employeeService;
-        this.employeeRepo = employeeRepo;
     }
 
     @GetMapping
@@ -35,25 +33,29 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
-    public EmployeeDTO getEmployee(@PathVariable("id") int id) {
-        return employeeMap.convertEntityToDTO(employeeService.getEmployee(id));
+    public ResponseEntity<Object> getEmployee(@PathVariable("id") int id) {
+        EmployeeDTO emplDTO = employeeMap.convertEntityToDTO(employeeService.getEmployee(id));
+        return ResponseEntity.status(HttpStatus.OK).body(emplDTO);
     }
 
     @PostMapping
-    public EmployeeDTO addEmployee(@RequestBody EmployeeDTO newEmployeeDTO) throws Exception {
-        return employeeMap.convertEntityToDTO(employeeService.addEmployee(employeeMap.convertDTOToEntity(newEmployeeDTO)));
+    public ResponseEntity<Object> addEmployee(@RequestBody EmployeeDTO newEmployeeDTO) throws Exception {
+        EmployeeDTO addedEmplDTO = employeeMap.convertEntityToDTO(employeeService.addEmployee(employeeMap.convertDTOToEntity(newEmployeeDTO)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedEmplDTO);
     }
 
     @PutMapping(value = "/{id}")
-    public void updateEmployee(@PathVariable("id") int id, @RequestBody EmployeeDTO updatedEmplDTO) throws Exception {
+    public ResponseEntity<Object> updateEmployee(@PathVariable("id") int id, @RequestBody EmployeeDTO updatedEmplDTO) throws Exception {
         Employee updatedEmpl = employeeMap.convertDTOToEntity(updatedEmplDTO);
         updatedEmpl.setId(id);
-        employeeService.updateEmployee(updatedEmpl);
+        EmployeeDTO returnedEmplDTO = employeeMap.convertEntityToDTO(employeeService.updateEmployee(updatedEmpl));
+        return ResponseEntity.status(HttpStatus.OK).body(returnedEmplDTO);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteEmployee(@PathVariable("id") int id) {
-        employeeService.deleteEmployee(id);
+    public ResponseEntity<Object> deleteEmployee(@PathVariable("id") int id) {
+        String responseMessage = employeeService.deleteEmployee(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
 
 }
