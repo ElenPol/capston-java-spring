@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getEmployee(@PathVariable("id") int id) {
+    public ResponseEntity<Object> getEmployee(@PathVariable("id") int id) throws Exception {
         EmployeeDTO emplDTO = employeeMap.convertEntityToDTO(employeeService.getEmployee(id));
         return ResponseEntity.status(HttpStatus.OK).body(emplDTO);
     }
@@ -53,7 +53,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteEmployee(@PathVariable("id") int id) {
+    public ResponseEntity<Object> deleteEmployee(@PathVariable("id") int id) throws Exception {
         String responseMessage = employeeService.deleteEmployee(id);
         return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DeviceService {
@@ -23,22 +24,25 @@ public class DeviceService {
     public List<Device> getDevices(){
         return deviceRepo.findAll();
     }
-    public Device getDevice(String serialNumber){
-        //TODO Exception for id not found
+    public Device getDevice(String serialNumber) throws Exception {
+        deviceRepo.findById(serialNumber).orElseThrow(()
+                -> new NoSerialnumberFoundException("No device with serialNumber : " + serialNumber + " found"));
         return deviceRepo.findById(serialNumber).get();
     }
     public Device addDevice(Device device) throws Exception{
-        //TODO Exception for null device
+        if (Optional.ofNullable(device).isPresent()){ throw new NullObjectException("device is null");}
         this.checkIdsForException(device);
         return deviceRepo.save(device);
     }
     public Device updateDevice(Device device) throws Exception {
-        //TODO Exception for null device
+        deviceRepo.findById(device.getSerialNumber()).orElseThrow(()
+                -> new NoSerialnumberFoundException("No device with serialNumber : " + device.getSerialNumber() + " found"));
         this.checkIdsForException(device);
         return deviceRepo.save(device);
     }
-    public String deleteDevice(String serialNumber){
-        //TODO Exception for id not found
+    public String deleteDevice(String serialNumber) throws Exception {
+        deviceRepo.findById(serialNumber).orElseThrow(()
+                -> new NoSerialnumberFoundException("No device with serialNumber : " + serialNumber + " found"));
         deviceRepo.deleteById(serialNumber);
         return "Device is deleted";
     }

@@ -27,7 +27,7 @@ public class DeviceController {
     }
 
     @GetMapping(value = "/{serialNumber}")
-    public ResponseEntity<Object> getDevice(@PathVariable("serialNumber") String serialNumber) {
+    public ResponseEntity<Object> getDevice(@PathVariable("serialNumber") String serialNumber) throws Exception {
         DeviceDTO devDTO = deviceMap.convertEntityToDTO(deviceService.getDevice(serialNumber));
         return ResponseEntity.status(HttpStatus.OK).body(devDTO);
     }
@@ -54,7 +54,7 @@ public class DeviceController {
     }
 
     @DeleteMapping(value = "/{serialNumber}")
-    public ResponseEntity<Object> deleteDevice(@PathVariable("serialNumber") String serialNumber) {
+    public ResponseEntity<Object> deleteDevice(@PathVariable("serialNumber") String serialNumber) throws Exception {
         String responseMessage = deviceService.deleteDevice(serialNumber);
         return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
