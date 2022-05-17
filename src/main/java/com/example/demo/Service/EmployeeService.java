@@ -23,20 +23,23 @@ public class EmployeeService {
         return employeeRepo.findAll();
     }
     public Employee getEmployee(int id){
+        //TODO Ecxeption for id not found
         return employeeRepo.findById(id).get();
     }
     public Employee addEmployee(Employee employee) throws Exception {
+        //TODO Exception for null employee
         companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);
     }
     public Employee updateEmployee(Employee employee) throws Exception{
+        //TODO Exception for null employee
         companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);
     }
     public String deleteEmployee(int id){
-
+        //TODO Ecxeption for id not found
         employeeRepo.deleteById(id);
         return "Employee is deleted";
     }

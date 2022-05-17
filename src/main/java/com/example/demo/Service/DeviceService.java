@@ -24,18 +24,23 @@ public class DeviceService {
         return deviceRepo.findAll();
     }
     public Device getDevice(String serialNumber){
+        //TODO Exception for id not found
         return deviceRepo.findById(serialNumber).get();
     }
     public Device addDevice(Device device) throws Exception{
+        //TODO Exception for null device
         this.checkIdsForException(device);
         return deviceRepo.save(device);
     }
-    public void updateDevice(Device device) throws Exception {
+    public Device updateDevice(Device device) throws Exception {
+        //TODO Exception for null device
         this.checkIdsForException(device);
-        deviceRepo.save(device);
+        return deviceRepo.save(device);
     }
-    public void deleteDevice(String serialNumber){
+    public String deleteDevice(String serialNumber){
+        //TODO Exception for id not found
         deviceRepo.deleteById(serialNumber);
+        return "Device is deleted";
     }
 
     private void checkIdsForException(Device device) throws Exception {

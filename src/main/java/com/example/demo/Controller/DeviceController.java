@@ -17,20 +17,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
-    private final DeviceRepository deviceRepo;
     private final DeviceService deviceService;
     private final DeviceMapper deviceMap;
 
     @Autowired
-    public DeviceController(DeviceRepository deviceRepo, DeviceService deviceService) {
-        this.deviceRepo = deviceRepo;
+    public DeviceController(DeviceService deviceService) {
         this.deviceMap = new DeviceMapper();
         this.deviceService = deviceService;
     }
 
     @GetMapping(value = "/{serialNumber}")
-    public DeviceDTO getDevice(@PathVariable("serialNumber") String serialNumber) {
-        return deviceMap.convertEntityToDTO(deviceService.getDevice(serialNumber));
+    public ResponseEntity<Object> getDevice(@PathVariable("serialNumber") String serialNumber) {
+        DeviceDTO devDTO = deviceMap.convertEntityToDTO(deviceService.getDevice(serialNumber));
+        return ResponseEntity.status(HttpStatus.OK).body(devDTO);
     }
 
     @GetMapping
@@ -42,19 +41,21 @@ public class DeviceController {
 
     @PostMapping
     @ResponseBody
-    public DeviceDTO addDevice(@RequestBody DeviceDTO newDeviceDTO) throws Exception {
-        return deviceMap.convertEntityToDTO(deviceService.addDevice(deviceMap.convertDTOToEntity(newDeviceDTO)));
+    public ResponseEntity<Object> addDevice(@RequestBody DeviceDTO newDeviceDTO) throws Exception {
+        DeviceDTO addedDevDTO = deviceMap.convertEntityToDTO(deviceService.addDevice(deviceMap.convertDTOToEntity(newDeviceDTO)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedDevDTO);
     }
 
     @PutMapping(value = "/{serialNumber}")
-    public void updateDevice(@PathVariable("serialNumber") String serialNumber, @RequestBody DeviceDTO updatedDevDTO) throws Exception {
+    public ResponseEntity<Object> updateDevice(@PathVariable("serialNumber") String serialNumber, @RequestBody DeviceDTO updatedDevDTO) throws Exception {
         Device updatedDev = deviceMap.convertDTOToEntity(updatedDevDTO);
         updatedDev.setSerialNumber(serialNumber);
-        deviceService.updateDevice(updatedDev);
+        return ResponseEntity.status(HttpStatus.OK).body(deviceMap.convertEntityToDTO(deviceService.updateDevice(updatedDev)));
     }
 
     @DeleteMapping(value = "/{serialNumber}")
-    public void deleteDevice(@PathVariable("serialNumber") String serialNumber) {
-        deviceService.deleteDevice(serialNumber);
+    public ResponseEntity<Object> deleteDevice(@PathVariable("serialNumber") String serialNumber) {
+        String responseMessage = deviceService.deleteDevice(serialNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
     }
 }
