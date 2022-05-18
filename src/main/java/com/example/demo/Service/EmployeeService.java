@@ -30,15 +30,15 @@ public class EmployeeService {
         return employeeRepo.findById(id).get();
     }
     public Employee addEmployee(Employee employee) throws Exception {
-        if (Optional.ofNullable(employee).isPresent()){ throw new NullObjectException("employee is null");}
-        companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
+        if (Optional.ofNullable(employee).isEmpty()){ throw new NullObjectException("employee is null");}
+         companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);
     }
     public Employee updateEmployee(Employee employee) throws Exception{
         employeeRepo.findById(employee.getId()).orElseThrow(()
                 -> new NoIdFoundException("No employee with id : " + employee.getId() + " found"));
-        companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
+       companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);
     }

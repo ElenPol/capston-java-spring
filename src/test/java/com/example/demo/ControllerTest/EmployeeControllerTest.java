@@ -31,7 +31,7 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     private static ObjectMapper mapper = new ObjectMapper();
 
