@@ -26,7 +26,6 @@ public class EmployeeServiceTest {
     private  Company employeeCompany;
     private Optional<Company> optEmployeeCompany;
     private List<Employee> employeeList;
-    private List<Company> companyList;
 
     @BeforeEach
     public void setUp(){
@@ -34,18 +33,15 @@ public class EmployeeServiceTest {
         companyRepository = Mockito.mock(CompanyRepository.class);
         employeeService = new EmployeeService(employeeRepository, companyRepository);
         this.employeeList = new ArrayList<>();
-        this.companyList = new ArrayList<>();
         this.empl = new Employee();
         this.employeeCompany = new Company();
         this.employeeCompany.setId(1);
         this.employeeCompany.setName("Onelity");
         this.employeeCompany.setAddress("G&G");
-        this.companyList.add(employeeCompany);
         this.empl.setId(1);
         this.empl.setName("Giorgos Papadopoulos");
         this.empl.setEmail("giorgos.papadopoulos@gmail.com");
         this.empl.setCompany(employeeCompany);
-        this.employeeList.add(this.empl);
         this.optEmployeeCompany = Optional.of(this.employeeCompany);
         Employee employee1 = new Employee();
         employee1.setId(2);
@@ -94,7 +90,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void givenIdTODeleteThenShouldDeleteTheEmployee() throws Exception {
+    public void givenIdToDeleteThenShouldDeleteTheEmployee() throws Exception {
         Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.ofNullable(this.empl));
         String result = employeeService.deleteEmployee(this.empl.getId());
         assertEquals(result, "Employee is deleted");

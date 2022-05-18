@@ -30,7 +30,7 @@ public class EmployeeService {
         return employeeRepo.findById(id).get();
     }
     public Employee addEmployee(Employee employee) throws Exception {
-        if (Optional.ofNullable(employee).isEmpty()){ throw new NullObjectException("employee is null");}
+        if (employee.getName() == null || employee.getEmail() == null || employee.getCompany() == null){ throw new NullObjectException("employee must have name, email and company");}
          companyRepo.findById(employee.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + employee.getCompany().getId()));
         return employeeRepo.save(employee);

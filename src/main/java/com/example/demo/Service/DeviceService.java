@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DeviceService {
@@ -30,7 +29,7 @@ public class DeviceService {
         return deviceRepo.findById(serialNumber).get();
     }
     public Device addDevice(Device device) throws Exception{
-        if (Optional.ofNullable(device).isPresent()){ throw new NullObjectException("device is null");}
+        if (device.getName() == null || device.getType() == null || device.getCompany() == null){ throw new NullObjectException("device must have name, type and company");}
         this.checkIdsForException(device);
         return deviceRepo.save(device);
     }
@@ -50,11 +49,13 @@ public class DeviceService {
     private void checkIdsForException(Device device) throws Exception {
         companyRepo.findById(device.getCompany().getId()).orElseThrow(()
                 -> new NoCompanyFoundException("No Company with ID : " + device.getCompany().getId()));
-        employeeRepo.findById(device.getEmployee().getId()).orElseThrow(()
-                -> new NoEmployeeFoundException("No Employee with ID : " + device.getEmployee().getId()));
-        if (device.getCompany().getId() != employeeRepo.findById(device.getEmployee().getId()).get().getCompany().getId()){
-            throw new EmployeeMismatchCompanyException("No employee with id: " + device.getEmployee().getId() +
-                    " in company: "+ device.getCompany().getName());
+        if (device.getEmployee() != null) {
+            employeeRepo.findById(device.getEmployee().getId()).orElseThrow(()
+                    -> new NoEmployeeFoundException("No Employee with ID : " + device.getEmployee().getId()));
+            if (device.getCompany().getId() != employeeRepo.findById(device.getEmployee().getId()).get().getCompany().getId()) {
+                throw new EmployeeMismatchCompanyException("No employee with id: " + device.getEmployee().getId() +
+                        " in company: " + device.getCompany().getName());
+            }
         }
     }
 

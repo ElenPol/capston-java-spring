@@ -25,10 +25,10 @@ public class Device {
     @Column(name = "serial_numer", updatable = false)
     private String serialNumber;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private String type;
 
     @ManyToOne
@@ -37,7 +37,7 @@ public class Device {
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false,
+    @JoinColumn(name = "employee_id",
             referencedColumnName = "id")
     private Employee employee;
 
