@@ -9,9 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,6 +33,7 @@ public class Employee {
             referencedColumnName = "id")
     private Company company;
 
+    @JsonIgnoreProperties("employee")
     @OneToMany(mappedBy = "employee")
     private List<Device> devices;
 
