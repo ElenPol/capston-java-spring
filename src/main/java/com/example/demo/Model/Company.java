@@ -9,9 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,9 +28,11 @@ public class Company {
     @Column(name = "address")
     private String address;
 
+    @JsonBackReference("company_employees")
     @OneToMany(mappedBy = "company")
     private List<Employee> employees;
 
+    @JsonBackReference("company_devices")
     @OneToMany(mappedBy = "company")
     private List<Device> devices;
 
