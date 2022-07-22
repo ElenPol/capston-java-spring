@@ -8,9 +8,6 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "serialNumber")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
